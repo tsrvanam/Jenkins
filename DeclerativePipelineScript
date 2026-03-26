@@ -1,0 +1,65 @@
+pipeline {
+    agent { label 'ubuntu' }
+
+    tools {
+        maven 'maven-3.9.14'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/tsrvanam/calculator-app.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh 'mvn package -DskipTests'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+ 
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'target/*.war', allowEmptyArchive: true
+            cleanWs()
+        }
+        success {
+            echo 'Pipeline succeeded! App deployed to Tomcat.'
+            // emailext to: 'team@example.com', subject: "Build Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+        }
+        failure {
+            echo 'Pipeline failed!'
+            // emailext to: 'team@example.com', subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+        }
+        unstable {
+            echo 'Pipeline unstable - check tests or quality gate.'
+        }
+    }
+}
