@@ -1,0 +1,21 @@
+pipeline{
+    agent any
+    stages{
+        stage('check'){
+            steps{
+                echo 'This is to test pipeline'
+            }
+        }
+    }
+    post{
+        always{
+            echo 'Print this always :(:)'
+        }
+        success{
+            echo 'The job is successful :)'
+        }
+        failure{
+            echo 'The job is failed :)'
+        }
+    }
+}
