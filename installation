@@ -1,8 +1,11 @@
 
+
 sudo apt update
-sudo apt install fontconfig openjdk-21-jre -y
+sudo apt install fontconfig openjdk-21-jre
 java -version
 
+
+cd /opt
 
 sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
   https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
@@ -10,23 +13,12 @@ echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
   https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
   /etc/apt/sources.list.d/jenkins.list > /dev/null
 sudo apt update
-sudo apt install jenkins -y
+sudo apt install jenkins
 
 
-sudo systemctl enable Jenkins
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
+sudo systemctl status jenkins
 
-sudo systemctl start Jenkins
-
-sudo systemctl status Jenkins
-
-
-cd /var/lib/Jenkins  --Home directory
-
-cat /var/lib/jenkins/secrets/initalAdminPassword --initial password
-
-If you stop and start an instance it will change the IP address and assign you a new IP address.
-Jenkins by default will not update this instead we should do one of the following.
-
-/var/lib/jenkins/jenkins.model.jenconf.xml   ---> update new ip here and restart Jenkins
-or
-you can go to settings --> system --> Jenkins URL and update it with the new IP address
+ssh-keygen 
+root@ip-172-31-1-151:~/.ssh# cat ~/.ssh/id_ed25519.pub 
