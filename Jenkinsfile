@@ -1,20 +1,34 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage('check'){
-            steps{
+
+    environment {
+        GIT_URL = 'https://github.com/tsrvanam/Jenkins.git'
+        BRANCH  = 'main'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: "${BRANCH}",
+                    url: "${GIT_URL}"
+            }
+        }
+
+        stage('check') {
+            steps {
                 echo 'This is to test pipeline.'
             }
         }
     }
-    post{
-        always{
+
+    post {
+        always {
             echo 'Print this always :(:)'
         }
-        success{
+        success {
             echo 'The job is successful :)'
         }
-        failure{
+        failure {
             echo 'The job is failed :)'
         }
     }
