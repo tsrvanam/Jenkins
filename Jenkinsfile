@@ -2,9 +2,20 @@ pipeline {
     agent any
 
     environment {
-        GIT_URL = 'https://github.com/tsrvanam/Jenkins.git'
-        BRANCH  = 'main'
+        GIT_URL    = 'https://github.com/tsrvanam/Jenkins.git'
+        BRANCH     = 'main'
+        MAVEN_TOOL = 'maven-3.9.14'
     }
+
+    tools {
+        maven "${MAVEN_TOOL}"
+    }
+
+    stage('check') {        
+            steps {
+                echo 'This is the start of the pipeline.'
+            }
+        }
 
     stages {
         stage('Checkout') {
@@ -14,9 +25,9 @@ pipeline {
             }
         }
 
-        stage('check') {
+        stage('Maven Version') {
             steps {
-                echo 'This is to test pipeline.'
+                sh 'mvn -v'
             }
         }
     }
