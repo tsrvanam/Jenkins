@@ -11,13 +11,15 @@ pipeline {
         maven "${MAVEN_TOOL}"
     }
 
-    stage('check') {        
+
+    stages {
+        
+        stage('message') {        
             steps {
                 echo 'This is the start of the pipeline.'
             }
         }
-
-    stages {
+        
         stage('Checkout') {
             steps {
                 git branch: "${BRANCH}",
