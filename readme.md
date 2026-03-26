@@ -1,115 +1,158 @@
-Step 1: Make sure Jenkins is reachable
+# 🚀 Jenkins + GitHub Webhook Setup Guide
 
-Before touching GitHub:
+This guide explains how to configure Jenkins to automatically trigger builds when code is pushed to GitHub.
 
-Jenkins must be accessible via URL:
+---
+
+## 📌 Step 1: Ensure Jenkins is Reachable
+
+Before configuring anything:
+
+Jenkins must be accessible via a URL:
+
+```
 http://<your-server-ip>:8080
+```
 
-👉 Examples:
+✅ Example:
+```
+http://3-12-34-56-78:8080
+```
 
-EC2: http://ec2-xx-xx-xx.compute.amazonaws.com:8080
-Local → use ngrok:
-ngrok http 8080
+---
 
-⚠️ If GitHub cannot reach Jenkins → webhook will FAIL
+## ⚙️ Step 2: Configure Jenkins Job
 
-⚙️ Step 2: Enable GitHub integration in Jenkins
+Go to your Jenkins **Pipeline Job → Configure**
 
-Go to:
+### 🔹 Source Code Configuration (IMPORTANT)
 
-Manage Jenkins → Configure System
+If using **Pipeline from SCM**:
 
-Find: GitHub section
-Click Add GitHub Server
-Add credentials:
-Kind: Username + Password OR Token
-Use GitHub Personal Access Token
-
-👉 This connects Jenkins with GitHub
-
-🔑 Step 3: Generate GitHub Personal Access Token (PAT)
-
-In GitHub:
-
-Go to:
-Settings → Developer Settings → Personal Access Tokens
-Click Generate Token
-Give permissions:
-✅ repo
-✅ admin:repo_hook
-Copy token → add in Jenkins credentials
-🧱 Step 4: Configure your Jenkins Job
-
-Go to your pipeline job:
-
-✔️ Source Code (VERY IMPORTANT)
-If using Pipeline from SCM:
-
-Repo URL:
-
+- **Repository URL:**
+```
 https://github.com/your-username/your-repo.git
+```
 
-Branch:
-
+- **Branch:**
+```
 */main
-✔️ Enable trigger
+```
 
-Check:
+---
 
+### 🔹 Enable Build Trigger
+
+Check this option:
+
+```
 GitHub hook trigger for GITScm polling
+```
 
-👉 This is the key switch
+👉 This is the **key setting** that allows Jenkins to listen to GitHub events.
 
-🌐 Step 5: Add Webhook in GitHub
+---
 
-Now go to your repo in GitHub:
+## 🔗 Step 3: Add Webhook in GitHub
 
-Path:
+Go to your GitHub repository:
 
+```
 Repo → Settings → Webhooks → Add webhook
+```
 
-Fill these fields:
-🔹 Payload URL:
+### Fill the following fields:
+
+#### 🔹 Payload URL
+```
 http://<jenkins-url>/github-webhook/
+```
 
-Example:
+✅ Example:
+```
+http://3-12-34-56-78:8080/github-webhook/
+```
 
-http://ec2-12-34-56-78.compute.amazonaws.com:8080/github-webhook/
-🔹 Content type:
+---
+
+#### 🔹 Content Type
+```
 application/json
-🔹 Secret:
+```
 
-(optional but recommended)
+---
 
-Add same secret in Jenkins if configured
-🔹 Which events?
+#### 🔹 Secret (Optional but Recommended)
+
+- Add a secret string  
+- Use the same secret in Jenkins (if configured)
+
+---
+
+#### 🔹 Events
 
 Select:
-
+```
 Just the push event
+```
 
-👉 Enough for basic CI/CD
+👉 This is enough for basic CI/CD pipelines.
 
-🔹 Active:
+---
 
-✔️ Keep checked
+#### 🔹 Active
+
+✔️ Keep this checked
 
 Click:
+```
+Add webhook
+```
 
-✅ Add webhook
+---
 
-🧪 Step 6: Test the Webhook
-Option 1: Push code
+## 🧪 Step 4: Test the Webhook
+
+### Option 1: Push Code
+
+```bash
 git add .
 git commit -m "test webhook"
 git push origin main
-Option 2: Manual test
+```
 
-In GitHub → Webhooks → click your webhook → Recent Deliveries
+---
 
-✅ Step 7: Verify
-In GitHub:
-Status should be:
+### Option 2: Manual Test
+
+Go to:
+```
+GitHub → Settings → Webhooks → Select your webhook → Recent Deliveries
+```
+
+---
+
+## ✅ Step 5: Verify
+
+### In GitHub:
+- Status should be:
+```
 200 OK
-In Jenkins:
-Job should trigger automatically 🎉
+```
+
+### In Jenkins:
+- Your job should trigger automatically 🎉
+
+---
+
+## 🎯 Summary
+
+- Jenkins listens using webhook endpoint  
+- GitHub sends event on every push  
+- Jenkins triggers pipeline automatically  
+
+---
+
+## 🚀 You're Done!
+
+You now have a fully automated CI trigger using Jenkins + GitHub Webhooks.
