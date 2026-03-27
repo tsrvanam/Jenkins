@@ -4,7 +4,7 @@ This guide explains how to configure Jenkins to automatically trigger builds whe
 
 ---
 
-## 📌 Step 1: Ensure Jenkins is Reachable
+## 📌 Step 1: Ensure Jenkins is Reachable.
 
 Before configuring anything:
 
