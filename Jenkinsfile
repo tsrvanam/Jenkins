@@ -32,6 +32,14 @@ pipeline {
                 sh 'mvn -v'
             }
         }
+
+        stage('Trigger Downstream Job') {
+            steps {
+                build job: 'airtel-prod', 
+                      wait: true, 
+                      propagate: true
+            }
+        }
     }
 
     post {
