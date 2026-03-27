@@ -1,4 +1,4 @@
-# 🚀 Jenkins + GitHub Webhook Setup Guide
+# 🚀 Jenkins + GitHub Webhook Setup Guide.
 
 This guide explains how to configure Jenkins to automatically trigger builds when code is pushed to GitHub.
 
