@@ -21,7 +21,7 @@ http://3-12-34-56-78:8080
 
 ---
 
-## ⚙️ Step 2: Configure Jenkins Job
+## ⚙️ Step 2: Configure Jenkins Job.
 
 Go to your Jenkins **Pipeline Job → Configure**
 
