@@ -35,7 +35,7 @@ pipeline {
 
         stage('Trigger Downstream Job') {
             steps {
-                build job: 'airtel-qa', 
+                build job: 'airtel-prodcopy', 
                       wait: true, 
                       propagate: true
             }
